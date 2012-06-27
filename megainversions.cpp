@@ -3,19 +3,25 @@
 
 using namespace std;
 
+// round up to nearest power of two
+inline size_t ceil2(size_t n) {
+	size_t upperbound = 1;
+	while (upperbound < n) upperbound *= 2;
+	return upperbound;
+}
+
+inline size_t lowbit(size_t n) {
+	return n & -n;
+}
+
 struct fenwick {
 	inline fenwick(size_t n)
-		: n(n)
-		, data(n)
+		: data(ceil2(n)+1)
 	{}
-
-	inline static size_t lowbit(size_t n) {
-		return n & -n;
-	}
 
 	inline void add(size_t k, int x = 1) {
 		if (!k) return;
-		while (k <= n) {
+		while (k < data.size()) {
 			data[k] += x;
 			k += lowbit(k);
 		}
@@ -30,7 +36,6 @@ struct fenwick {
 		return result;
 	}
 
-	size_t n;
 	vector<int> data;
 };
 
@@ -38,12 +43,8 @@ int main() {
 	size_t n;
 	cin >> n;
 
-	// round up to nearest power of two
-	size_t upperbound = 1;
-	while (upperbound < n) upperbound *= 2;
-
-	fenwick numbers(upperbound);
-	fenwick inversions(upperbound);
+	fenwick numbers(n);
+	fenwick inversions(n);
 	size_t megainversions = 0;
 
 	for (size_t _ = 0; _ < n; ++_) {
