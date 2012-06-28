@@ -51,7 +51,7 @@ int main() {
 		int num;
 		cin >> num;
 		numbers.add(num);
-		inversions.add(numbers.query(n)-numbers.query(num));
+		inversions.add(num, numbers.query(n)-numbers.query(num));
 		megainversions += inversions.query(n)-inversions.query(num);
 	}
 	cout << megainversions << endl;
